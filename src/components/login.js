@@ -15,7 +15,6 @@ export default function RenderLogin() {
     return (
         <LoginDiv>
             <Logo src={logo} />
-            <FontTitle>TrackIt</FontTitle>
             <InputBox data-identifier="email-input" placeholder="email" onChange={e => updateEmail(e.target.value, loginProps)} disabled={disableInput}></InputBox>
             <InputBox data-identifier="password-input" placeholder="senha" onChange={e => updatePassword(e.target.value, loginProps)} disabled={disableInput}></InputBox>
             <LoginButton data-identifier="login-btn" onClick={() => { Login(loginProps, userData, navigate, setDisableInput) }} disabled={disableInput}>
@@ -23,7 +22,7 @@ export default function RenderLogin() {
                     Entrar
                 </FontButton>
             </LoginButton>
-            <Link to="/cadastro" style={{ textDecoration: 'none' }}>
+            <Link to="/sign-up" style={{ textDecoration: 'none' }}>
                 <OtherPage data-identifier="signup-link">Não tem uma conta? Cadastre-se!</OtherPage>
             </Link>
         </LoginDiv>
@@ -71,19 +70,9 @@ align-items:center;
 `
 
 const Logo = styled.img`
-width: 155px;
-height: 100px;
+width: 300px;
+height: 70px;
 margin: 68px 0px 0px 0px;
-`
-
-const FontTitle = styled.p`
-font-family: 'Playball';
-font-style: normal;
-font-weight: 400;
-font-size: 69px;
-line-height: 86px;
-color: #126BA5;
-margin: 0px 0px 30px 0px;
 `
 
 const InputBox = styled.input`
@@ -96,43 +85,40 @@ border-radius: 5px;
 padding: 0px 10px;
 margin: 5px 0px;
 ::placeholder{
-    font-family: 'Lexend Deca';
+font-family: 'Roboto';
 font-style: normal;
 font-weight: 400;
-font-size: 20px;
-line-height: 25px;
-color: #DBDBDB;
+font-size: 14px;
+line-height: 16px;
+color: #7E7E7E;
 }
 `
 
 const LoginButton = styled.button`
-width: 303px;
-height: 45px;
-background: #52B6FF;
-border-color: #52B6FF;
-border-radius: 5px;
+width: 298px;
+height: 52px;
+background: #FF4791;
+border-radius: 8px;
 display: flex;
 justify-content:center;
 align-items:center;
 `
 const FontButton = styled.p`
-font-family: 'Lexend Deca';
+font-family: 'Roboto';
 font-style: normal;
-font-weight: 400;
-font-size: 21px;
-line-height: 26px;
-text-align: center;
+font-weight: 700;
+font-size: 14px;
+line-height: 16px;
 color: #FFFFFF;
 `
 
 const OtherPage = styled.p`
-font-family: 'Lexend Deca';
+font-family: 'Roboto';
 font-style: normal;
 font-weight: 400;
 font-size: 14px;
-line-height: 17px;
-text-align: center;
+line-height: 16px;
 text-decoration-line: underline;
-color: #52B6FF;
+color: #FFFFFF;
 margin: 20px 0px;
 `
