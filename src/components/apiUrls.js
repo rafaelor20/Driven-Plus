@@ -1,4 +1,4 @@
-export const registerPostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
+export const registerPostUrl = "https://mock-api.driven.com.br/api/v4/driven-plus/auth/sign-up";
 export const registerPostObj = {
 	email: "",
 	name: "",
@@ -7,7 +7,7 @@ export const registerPostObj = {
 };
 
 
-export const loginPostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
+export const loginPostUrl = "https://mock-api.driven.com.br/api/v4/driven-plus/auth/login";
 export const loginPostSendObj = {
 	email: "...",
 	password: "..."
@@ -16,40 +16,52 @@ export const loginPostReceiveObj =
 {
 	id: 0,
 	name: "",
-	image: "",
+	cpf: "",
 	email: "",
 	password: "",
-	token: ""
-};
-
-
-export const habitPostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-export const habitPostSendObj = {
-	name: "",
-	days: [] // segunda, quarta e sexta
-};
-// config = { headers: { Authorization: `Bearer ${token}` } };
-
-
-export const habitPostReceiveObj = {
-	id: 0,
-	name: "",
-	days: []
-};
-
-
-export const habitsListGetUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
-export const habitsListObj = [
-	{
+	token: "",
+	membership: {
 		id: 0,
 		name: "",
-		days: []
+		image: "",
+		price: "",
+		perks: []
 	}
-];
+};
 
-export const deleteUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/";//com id do habito concatenado no final
+export const subscriptionsLstGetUrl = "https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships";
 // config = { headers: { Authorization: `Bearer ${token}` } };
 
+
+export const subscriptionLsttReceiveGetObj = [];
+
+
+export const subscriptionGetUrl = "https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships/" // + ID_DO_PLANO
+export const habitsListObj = {
+	id: 0,
+	name: "",
+	image: "",
+	price: "",
+	perks: []
+}
+
+export const subscribeGetUrl = "https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions";
+export const subscribeGetSendObj = {
+    membershipId: 0,
+    cardName: "",
+    cardNumber: "",
+    securityNumber: 0,
+    expirationDate: ""
+}
+// config = { headers: { Authorization: `Bearer ${token}` } };
+
+export const subscribeGetReceiveObj = {
+    id: 0,
+    name: "",
+    image: "",
+    price: "",
+    perks: []
+}
 
 export const habitsTodayUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
 // config = { headers: { Authorization: `Bearer ${token}` } };
@@ -63,11 +75,25 @@ export const habitsTodayReceive = [
 	}
 ];
 
-export const habitDonePostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/check"
+export const changePlanGetUrl = "https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions";
+
+export const changePlanSendObj = {
+    membershipId: 0,
+    cardName: "",
+    cardNumber: "",
+    securityNumber: 0,
+    expirationDate: ""
+}
 // config = { headers: { Authorization: `Bearer ${token}` } };
 
-export const habitUndonePostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/uncheck"
-// config = { headers: { Authorization: `Bearer ${token}` } };
 
-export const historicGetUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily"
+export const changePlanReceiveObj = {
+    membershipId: 0,
+    cardName: "",
+    cardNumber: "",
+    securityNumber: 0,
+    expirationDate: ""
+}
+
+export const deletePlanUrl = "https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions"
 // config = { headers: { Authorization: `Bearer ${token}` } };
