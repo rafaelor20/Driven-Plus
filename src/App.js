@@ -20,7 +20,7 @@ function App() {
           <Routes>
             <Route path="/" element={<RenderLogin />} />
             <Route path="/sign-up" element={<RenderRegister />} />
-            <Route path="/subscriptions/:id" element={<Subscription />} />
+            <Route path="/subscriptions/id" element={<Subscription />} />
             <Route path="/subscriptions" element={<Subscriptions />} />
             <Route path="/home" element={<Home />} />
           </Routes>

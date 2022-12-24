@@ -17,15 +17,17 @@ export default function Home() {
             </ContainerImg>
             <Content>
                 <Title>Olá, fulano</Title>
-                <Button><FontButton>Solicitar brindes</FontButton></Button>
-                <Button><FontButton>Materiais bônus de web</FontButton></Button>
-                <Button><FontButton>Aulas bônus de tech</FontButton></Button>
-                <Button><FontButton>Mentorias personalizadas</FontButton></Button>
+                <ContainerButtons>
+                    <Button><FontButton>Solicitar brindes</FontButton></Button>
+                    <Button><FontButton>Materiais bônus de web</FontButton></Button>
+                    <Button><FontButton>Aulas bônus de tech</FontButton></Button>
+                    <Button><FontButton>Mentorias personalizadas</FontButton></Button>
+                </ContainerButtons>
             </Content>
-
-            <Button><FontButton>Mudar plano</FontButton></Button>
-            <RedButton><FontButton>Cancelar plano</FontButton></RedButton>
-
+            <Footer>
+                <Button><FontButton>Mudar plano</FontButton></Button>
+                <RedButton><FontButton>Cancelar plano</FontButton></RedButton>
+            </Footer>
         </Container>
     )
 }
@@ -56,7 +58,7 @@ width: 5px;
 height: 25px;
 position: absolute;
 top: 27px;
-left: 55px
+left: 55px;
 `
 
 const PinkBarVertical = styled(PinkBarHorizontal)`
@@ -66,10 +68,11 @@ transform: rotate(90deg);
 const Content = styled.div`
 display: flex;
 flex-direction: column;
-align-items: center
+align-items: center;
 `
 
 const Title = styled.p`
+margin: 20px 20px;
 font-family: 'Roboto';
 font-style: normal;
 font-weight: 700;
@@ -78,8 +81,12 @@ line-height: 28px;
 color: #FFFFFF;
 `
 
+const ContainerButtons = styled.div`
+margin: 20px 0px 0px 0px;
+`
+
 const Button = styled.button`
-margin: 10px 0px;
+margin: 5px 0px;
 width: 298px;
 height: 52px;
 background: #FF4791;
@@ -99,4 +106,15 @@ font-weight: 700;
 font-size: 14px;
 line-height: 16px;
 color: #FFFFFF;
+`
+
+const Footer = styled.div`
+width: 100vw;
+display: flex;
+flex-direction: column;
+align-items: center;
+position: absolute;
+left: 0px;
+bottom: 0px;
+margin: 15px 0px;
 `

@@ -12,10 +12,10 @@ export default function SignUp() {
 
     return (
         <RegisterDiv>
+            <InputBox data-identifier="user-name-input" placeholder="nome" onChange={e => updateName(e.target.value, userProps)} disabled={disableInput}></InputBox>
+            <InputBox data-identifier="user-image-input" placeholder="cpf" onChange={e => updateImage(e.target.value, userProps)} disabled={disableInput}></InputBox>
             <InputBox data-identifier="email-input" placeholder="email" onChange={e => updateEmail(e.target.value, userProps)} disabled={disableInput}></InputBox>
             <InputBox data-identifier="password-input" placeholder="senha" onChange={e => updatePassword(e.target.value, userProps)} disabled={disableInput}></InputBox>
-            <InputBox data-identifier="user-name-input" placeholder="nome" onChange={e => updateName(e.target.value, userProps)} disabled={disableInput}></InputBox>
-            <InputBox data-identifier="user-image-input" placeholder="foto" onChange={e => updateImage(e.target.value, userProps)} disabled={disableInput}></InputBox>
             <LoginButton data-identifier="signup-btn" onClick={() => Register(userProps, navigate, setDisableInput)} disable={disableInput}>
                 <FontButton>
                     Cadastrar
@@ -111,11 +111,12 @@ font-style: normal;
 font-weight: 400;
 font-size: 14px;
 line-height: 16px;
-color: #7E7E7E;
+color: #5E5E5E;
 }
 `
 
 const LoginButton = styled.button`
+box-sizing: border-box;
 width: 298px;
 height: 52px;
 background: #FF4791;
@@ -123,6 +124,7 @@ border-radius: 8px;
 display: flex;
 justify-content:center;
 align-items:center;
+margin: 5px 0px;
 `
 const FontButton = styled.p`
 font-family: 'Roboto';
