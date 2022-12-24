@@ -13,7 +13,7 @@ export default function SignUp() {
     return (
         <RegisterDiv>
             <InputBox data-identifier="user-name-input" placeholder="nome" onChange={e => updateName(e.target.value, userProps)} disabled={disableInput}></InputBox>
-            <InputBox data-identifier="user-image-input" placeholder="cpf" onChange={e => updateImage(e.target.value, userProps)} disabled={disableInput}></InputBox>
+            <InputBox data-identifier="user-image-input" placeholder="cpf" onChange={e => updateCpf(e.target.value, userProps)} disabled={disableInput}></InputBox>
             <InputBox data-identifier="email-input" placeholder="email" onChange={e => updateEmail(e.target.value, userProps)} disabled={disableInput}></InputBox>
             <InputBox data-identifier="password-input" placeholder="senha" onChange={e => updatePassword(e.target.value, userProps)} disabled={disableInput}></InputBox>
             <LoginButton data-identifier="signup-btn" onClick={() => Register(userProps, navigate, setDisableInput)} disable={disableInput}>
@@ -33,6 +33,7 @@ function Register(userProps, navigate, setDisableInput) {
     const request = axios.post(registerPostUrl, userProps.user);
     request.then(() => { navigate('/') });
     request.catch((error) => error.response.data);
+    request.catch(() => console.log(userProps.user));
     request.catch((error) => { alert("Erro no cadastro") });
     setDisableInput(false);
 }
@@ -44,7 +45,7 @@ function updateEmail(email, userProps) {
         {
             email: email,
             name: user.name,
-            image: user.image,
+            cpf: user.cpf,
             password: user.password
         }
     );
@@ -57,7 +58,7 @@ function updatePassword(password, userProps) {
         {
             email: user.email,
             name: user.name,
-            image: user.image,
+            cpf: user.cpf,
             password: password
         }
     );
@@ -70,20 +71,20 @@ function updateName(name, userProps) {
         {
             email: user.email,
             name: name,
-            image: user.image,
+            cpf: user.cpf,
             password: user.password
         }
     );
 }
 
-function updateImage(image, userProps) {
+function updateCpf(cpf, userProps) {
     const setUser = userProps.setUser;
     const user = userProps.user;
     setUser(
         {
             email: user.email,
             name: user.name,
-            image: image,
+            cpf: cpf,
             password: user.password
         }
     );

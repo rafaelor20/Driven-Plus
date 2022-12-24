@@ -51,6 +51,7 @@ const Screen = styled.div`
 display: flex;
 align-items: center;
 flex-direction: column;
+padding: 10px 10px;
 `
 
 const BackArrow = styled.img`
@@ -65,7 +66,7 @@ const Logo = styled.div`
 position: relative;
 height: 92px;
 width: 150px;
-margin: 70px 0px 0px 0px;
+margin: 50px 0px 0px 0px;
 `
 
 const ImgD = styled.img`

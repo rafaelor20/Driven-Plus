@@ -34,7 +34,7 @@ function Login(loginProps, userData, navigate, setDisableInput) {
     const request = axios.post(loginPostUrl, loginProps.login);
     const setUser = userData.setUser;
     request.then(server => { setUser(server.data) });
-    request.then(() => { navigate('/hoje') });
+    request.then(() => { navigate('/subscriptions') });
     request.catch((error) => error.response.data);
     request.catch((error) => { alert("Erro no login") });
     setDisableInput(false);
