@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import axios from "axios";
 import { registerPostUrl, registerPostObj } from "./apiUrls.js";
-import logo from "./assets/logo.png"
 
 export default function SignUp() {
     const [disableInput, setDisableInput] = useState(false);
@@ -97,15 +96,9 @@ align-items:center;
 justify-content:center;
 `
 
-const Logo = styled.img`
-width: 300px;
-height: 70px;
-margin: 68px 0px 0px 0px;
-`
-
 const InputBox = styled.input`
 box-sizing: border-box;
-width: 303px;
+width: 298px;
 height: 45px;
 background: #FFFFFF;
 border: 1px solid #D5D5D5;

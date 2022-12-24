@@ -72,18 +72,18 @@ align-items:center;
 const Logo = styled.img`
 width: 300px;
 height: 70px;
-margin: 68px 0px 0px 0px;
+margin: 0px 0px 80px 0px;
 `
 
 const InputBox = styled.input`
 box-sizing: border-box;
-width: 303px;
-height: 45px;
+width: 298px;
+height: 52px;
 background: #FFFFFF;
 border: 1px solid #D5D5D5;
-border-radius: 5px;
+border-radius: 8px;
 padding: 0px 10px;
-margin: 5px 0px;
+margin: 10px 0px;
 ::placeholder{
 font-family: 'Roboto';
 font-style: normal;
@@ -95,6 +95,7 @@ color: #7E7E7E;
 `
 
 const LoginButton = styled.button`
+margin: 10px 0px;
 width: 298px;
 height: 52px;
 background: #FF4791;
@@ -120,5 +121,5 @@ font-size: 14px;
 line-height: 16px;
 text-decoration-line: underline;
 color: #FFFFFF;
-margin: 20px 0px;
+margin: 10px 0px;
 `

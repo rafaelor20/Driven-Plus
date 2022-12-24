@@ -2,7 +2,7 @@ export const registerPostUrl = "https://mock-api.driven.com.br/api/v4/driven-plu
 export const registerPostObj = {
 	email: "",
 	name: "",
-	image: "",
+	cpf: "",
 	password: ""
 };
 
@@ -88,11 +88,11 @@ export const changePlanSendObj = {
 
 
 export const changePlanReceiveObj = {
-    membershipId: 0,
-    cardName: "",
-    cardNumber: "",
-    securityNumber: 0,
-    expirationDate: ""
+    id: 0,
+    name: "",
+    image: "",
+    price: "",
+    perks: []
 }
 
 export const deletePlanUrl = "https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions"
