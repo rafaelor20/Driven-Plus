@@ -1,10 +1,13 @@
 import styled from "styled-components";
+import { useState, useContext } from "react";
+import { UserContext } from "../App";
 import whiteD from "./assets/whiteD.png";
 import yellowD from "./assets/yellowD.png";
 import greenD from "./assets/greenD.png";
 import pinkBar from "./assets/pinkBar.png";
 
-export default function subscriptions() {
+export default function Subscriptions() {
+    const userData = useContext(UserContext);
     return (
         <Container>
             <Title>Escolha seu Plano</Title>

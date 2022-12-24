@@ -12,6 +12,7 @@ export const loginPostSendObj = {
 	email: "...",
 	password: "..."
 };
+
 export const loginPostReceiveObj =
 {
 	id: 0,
