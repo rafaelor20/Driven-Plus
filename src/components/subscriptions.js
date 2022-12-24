@@ -2,7 +2,7 @@ import styled from "styled-components";
 import whiteD from "./assets/whiteD.png";
 import yellowD from "./assets/yellowD.png";
 import greenD from "./assets/greenD.png";
-import pinkBar from "./assets/pinkBar.png"
+import pinkBar from "./assets/pinkBar.png";
 
 export default function subscriptions() {
     return (
