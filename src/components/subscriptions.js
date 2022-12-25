@@ -45,9 +45,9 @@ function RenderSubContainer(obj) {
 }
 
 function SelectPlan(plan, navigate) {
-    console.log(navigate);
+    //console.log(navigate);
     navigate(`/subscriptions/${plan.id}`)
-    console.log(plan);
+    //console.log(plan);
 }
 
 const Container = styled.div`

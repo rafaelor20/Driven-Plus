@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useState, useContext } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../App";
-import {subscriptionGetUrl, subscriptionObj} from "./apiUrls.js";
+import {subscribeGetUrl, subscriptionGetUrl, subscriptionObj} from "./apiUrls.js";
 import whiteD from "./assets/whiteD.png";
 import yellowD from "./assets/yellowD.png";
 import greenD from "./assets/greenD.png";
@@ -13,10 +13,15 @@ import money from "./assets/money.png";
 import backArrow from "./assets/backArrow.png";
 
 export default function Subscription() {
+    const navigate = useNavigate();
     const {id} = useParams();
     const [plan, setPlan] = useState(subscriptionObj)
     const userData = useContext(UserContext);
-    console.log(userData);
+    const [cardName, setCardName] = useState("");
+    const [cardNumber, setCardNumber] = useState("");
+    const [cardSN, setCardSN] = useState("");
+    const [expDate, setExpDate] = useState("");
+    const cardData = {membershipId: id, cardName: cardName, cardNumber: cardNumber, securityNumber: cardSN, expirationDate: expDate};
     const request = axios.get((subscriptionGetUrl+id), { headers: { Authorization: `Bearer ${userData.user.token}` } })
     request.then((server=>setPlan(server.data)));
     request.catch((error) => error.response.data);
@@ -26,8 +31,6 @@ export default function Subscription() {
             <BackArrow src={backArrow} alt="voltar"/>
             <Logo>
                 <ImgD src={plan.image} />
-                <PinkBarHorizontal src={pinkBar} />
-                <PinkBarVertical src={pinkBar} />
             </Logo>
             <Title>{plan.name}</Title>
             <InfoContainer>
@@ -44,19 +47,31 @@ export default function Subscription() {
                 </div>
                 <p>R$ {plan.price} cobrados mensalmente</p>
             </InfoContainer>
-            <InputBox placeholder="Nome impresso no cartão" />
-            <InputBox placeholder="Digitos do cartão" />
+            <InputBox placeholder="Nome impresso no cartão" onChange={e => updateValue(e.target.value, setCardName)}/>
+            <InputBox placeholder="Digitos do cartão" onChange={e => updateValue(e.target.value, setCardNumber)}/>
             <ShortInputContainer>
-                <ShortInputBox placeholder="Código de segurança" />
-                <ShortInputBox placeholder="Validade" />
+                <ShortInputBox placeholder="Código de segurança" onChange={e => updateValue(e.target.value, setCardSN)}/>
+                <ShortInputBox placeholder="Validade" onChange={e => updateValue(e.target.value, setExpDate)}/>
             </ShortInputContainer>
-            <LoginButton>
+            <LoginButton onClick={()=>{SignPlan(userData, cardData, navigate)}}>
                 <FontButton>
                     Assinar
                 </FontButton>
             </LoginButton>
         </Screen>
     )
+}
+
+function SignPlan(userData, cardData, navigate){
+    console.log(userData);
+    console.log(cardData);
+    const request = axios.post(subscribeGetUrl, cardData, { headers: { Authorization: `Bearer ${userData.user.token}` } });
+    request.then(()=>{navigate("/home")});
+    request.catch((error) => error.response.data);
+}
+
+function updateValue(value, setValue){
+    setValue(value);
 }
 
 function RenderPerk(perk){
