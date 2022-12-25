@@ -20,29 +20,29 @@ export default function Subscription() {
     const request = axios.get((subscriptionGetUrl+id), { headers: { Authorization: `Bearer ${userData.user.token}` } })
     request.then((server=>setPlan(server.data)));
     request.catch((error) => error.response.data);
+    //console.log(plan);
     return (
         <Screen>
             <BackArrow src={backArrow} alt="voltar"/>
             <Logo>
-                <ImgD src={whiteD} />
+                <ImgD src={plan.image} />
                 <PinkBarHorizontal src={pinkBar} />
                 <PinkBarVertical src={pinkBar} />
             </Logo>
-            <Title>Driven Plus</Title>
+            <Title>{plan.name}</Title>
             <InfoContainer>
                 <div>
                     <img src={clipBoard} alt="" />
                     <p>  Benefícios:</p>
                 </div>
-                <p>1. Brindes exclusivos</p>
-                <p>2. Materiais bônus de web</p>
+                <>{plan.perks.map(RenderPerk)}</>
             </InfoContainer>
             <InfoContainer>
                 <div>
                     <img src={money} alt="" />
                     <p>Preço:</p>
                 </div>
-                <p>R$ 39,99 cobrados mensalmente</p>
+                <p>R$ {plan.price} cobrados mensalmente</p>
             </InfoContainer>
             <InputBox placeholder="Nome impresso no cartão" />
             <InputBox placeholder="Digitos do cartão" />
@@ -57,6 +57,11 @@ export default function Subscription() {
             </LoginButton>
         </Screen>
     )
+}
+
+function RenderPerk(perk){
+    //console.log(perk)
+    return (<p>{perk.title}</p>)
 }
 
 const Screen = styled.div`
@@ -145,7 +150,8 @@ font-style: normal;
 font-weight: 400;
 font-size: 14px;
 line-height: 16px;
-color: #7E7E7E;
+color: black;
+//color: #7E7E7E;
 }
 `
 

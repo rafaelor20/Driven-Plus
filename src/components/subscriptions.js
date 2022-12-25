@@ -33,7 +33,7 @@ export default function Subscriptions() {
 }
 
 function RenderSubContainer(obj) {
-    console.log(obj);
+    //console.log(obj);
     const navigate = obj.navigate;
     const plan = obj.plan;
     return (
