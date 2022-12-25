@@ -34,11 +34,11 @@ export const subscriptionsLstGetUrl = "https://mock-api.driven.com.br/api/v4/dri
 // config = { headers: { Authorization: `Bearer ${token}` } };
 
 
-export const subscriptionLsttReceiveGetObj = [];
+export const subscriptionLstReceiveGetObj = [];
 
 
 export const subscriptionGetUrl = "https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships/" // + ID_DO_PLANO
-export const habitsListObj = {
+export const subscriptionObj = {
 	id: 0,
 	name: "",
 	image: "",

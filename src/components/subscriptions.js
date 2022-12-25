@@ -1,36 +1,53 @@
 import styled from "styled-components";
-import { useState, useContext } from "react";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { useState, useContext, createContext } from "react";
 import { UserContext } from "../App";
-import whiteD from "./assets/whiteD.png";
-import yellowD from "./assets/yellowD.png";
-import greenD from "./assets/greenD.png";
-import pinkBar from "./assets/pinkBar.png";
+import { subscribeGetSendObj, subscriptionGetUrl } from "./apiUrls.js"
+
+export const NavigateContext = createContext();
 
 export default function Subscriptions() {
+    
+    const navigate = useNavigate();
     const userData = useContext(UserContext);
+    const [plans, setPlans] = useState([]);
+
+    function insertNavigate(plan){
+        return {plan: plan, navigate: navigate};
+    }
+
+
+    const request = axios.get(subscriptionGetUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
+    request.then((server) => setPlans(server.data.map(insertNavigate)));
+    request.catch((error) => error.response.data);
+
     return (
-        <Container>
-            <Title>Escolha seu Plano</Title>
-            <SubContainer>
-                <PinkBarHorizontal src={pinkBar} />
-                <PinkBarVertical src={pinkBar} />
-                <img class="imgD" src={whiteD} alt="White D" />
-                <p>R$ 39,99</p>
-            </SubContainer>
-            <SubContainer>
-                <PinkBarHorizontal src={pinkBar} />
-                <PinkBarVertical src={pinkBar} />
-                <img src={yellowD} alt="Yellow D" />
-                <p>R$ 69,99</p>
-            </SubContainer>
-            <SubContainer>
-                <PinkBarHorizontal src={pinkBar} />
-                <PinkBarVertical src={pinkBar} />
-                <img src={greenD} alt="Green D" />
-                <p>R$ 99,99</p>
-            </SubContainer>
-        </Container>
+        <NavigateContext.Provider value={navigate}>
+            <Container>
+                <Title>Escolha seu Plano</Title>
+                <>{plans.map(RenderSubContainer)}</>
+            </Container>
+        </NavigateContext.Provider>
     )
+}
+
+function RenderSubContainer(obj) {
+    console.log(obj);
+    const navigate = obj.navigate;
+    const plan = obj.plan;
+    return (
+        <SubContainer onClick={() => { SelectPlan(plan, navigate)}}>
+            <img class="imgD" src={plan.image} alt="imagem do plano" />
+            <p>R$ {plan.price}</p>
+        </SubContainer>
+    )
+}
+
+function SelectPlan(plan, navigate) {
+    console.log(navigate);
+    navigate(`/subscriptions/${plan.id}`)
+    console.log(plan);
 }
 
 const Container = styled.div`
@@ -74,7 +91,7 @@ line-height: 28px;
 color: #FFFFFF;
 };
 .imgD{
-width:92px;
+width:142px;
 height:95px;
 }
 `

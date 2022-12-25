@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import { useState, useContext } from "react";
+import axios from "axios";
+import { Link, useParams } from "react-router-dom";
+import { UserContext } from "../App";
+import {subscriptionGetUrl, subscriptionObj} from "./apiUrls.js";
 import whiteD from "./assets/whiteD.png";
 import yellowD from "./assets/yellowD.png";
 import greenD from "./assets/greenD.png";
@@ -7,7 +12,14 @@ import clipBoard from "./assets/clipBoard.png";
 import money from "./assets/money.png";
 import backArrow from "./assets/backArrow.png";
 
-export default function subscription() {
+export default function Subscription() {
+    const {id} = useParams();
+    const [plan, setPlan] = useState(subscriptionObj)
+    const userData = useContext(UserContext);
+    console.log(userData);
+    const request = axios.get((subscriptionGetUrl+id), { headers: { Authorization: `Bearer ${userData.user.token}` } })
+    request.then((server=>setPlan(server.data)));
+    request.catch((error) => error.response.data);
     return (
         <Screen>
             <BackArrow src={backArrow} alt="voltar"/>

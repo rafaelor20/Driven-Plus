@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useState, createContext } from 'react';
 import RenderLogin from './components/login'
@@ -20,7 +20,7 @@ function App() {
           <Routes>
             <Route path="/" element={<RenderLogin />} />
             <Route path="/sign-up" element={<RenderRegister />} />
-            <Route path="/subscriptions/id" element={<Subscription />} />
+            <Route path="/subscriptions/:id" element={<Subscription />} />
             <Route path="/subscriptions" element={<Subscriptions />} />
             <Route path="/home" element={<Home />} />
           </Routes>
