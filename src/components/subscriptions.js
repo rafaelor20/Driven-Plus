@@ -8,7 +8,6 @@ import { subscribeGetSendObj, subscriptionGetUrl } from "./apiUrls.js"
 export const NavigateContext = createContext();
 
 export default function Subscriptions() {
-    
     const navigate = useNavigate();
     const userData = useContext(UserContext);
     const [plans, setPlans] = useState([]);

@@ -17,6 +17,7 @@ export default function Subscription() {
     const {id} = useParams();
     const [plan, setPlan] = useState(subscriptionObj)
     const userData = useContext(UserContext);
+    console.log(userData);
     const [cardName, setCardName] = useState("");
     const [cardNumber, setCardNumber] = useState("");
     const [cardSN, setCardSN] = useState("");
@@ -63,8 +64,8 @@ export default function Subscription() {
 }
 
 function SignPlan(userData, cardData, navigate){
-    console.log(userData);
-    console.log(cardData);
+    //console.log(userData);
+    //console.log(cardData);
     const request = axios.post(subscribeGetUrl, cardData, { headers: { Authorization: `Bearer ${userData.user.token}` } });
     request.then(()=>{navigate("/home")});
     request.catch((error) => error.response.data);
