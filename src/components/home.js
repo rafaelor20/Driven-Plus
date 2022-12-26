@@ -1,15 +1,21 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useState, useContext, createContext } from "react";
+import { useState, useEffect, useContext, createContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import iconUser from "./assets/userIcon.png"
 import { deletePlanUrl } from "./apiUrls";
+import { loginPostUrl, loginPostSendObj } from "./apiUrls.js"
 
 
 export default function Home() {
     const userData = useContext(UserContext);
+    const [login, setLogin] = useState(loginPostSendObj);
+    const loginProps = { login: login, setLogin: setLogin };
     const navigate = useNavigate();
+    useEffect(() => {
+        Login(loginProps, userData, navigate);
+    }, [])
     //console.log(userData);
     const image = userData.user.membership.image;
     const perks = userData.user.membership.perks;
@@ -51,6 +57,19 @@ function RemoveSub(userData, navigate){
     const request = axios.delete(deletePlanUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
     request.then(()=>navigate("/subscriptions"))
     request.catch((error) => error.response.data);
+}
+
+function Login(loginProps, userData, navigate) {
+    const login = {
+        email: userData.user.email, 
+        password: userData.user.password
+    };
+    const request = axios.post(loginPostUrl, login);
+    const setUser = userData.setUser;
+    request.then(server => { setUser(server.data) });
+    request.catch((error) => error.response.data);
+    request.catch((error) => { alert("Faça o login novamente por favor") });
+    request.catch((error) => { navigate("/") });
 }
 
 const Container = styled.div`

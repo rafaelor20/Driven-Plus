@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../App";
@@ -21,9 +21,12 @@ export default function Subscription() {
     const [expDate, setExpDate] = useState("");
     const [showConfirm, setShowConfirm] = useState("none");
     const cardData = { membershipId: id, cardName: cardName, cardNumber: cardNumber, securityNumber: cardSN, expirationDate: expDate };
-    const request = axios.get((subscriptionGetUrl + id), { headers: { Authorization: `Bearer ${userData.user.token}` } })
-    request.then((server => setPlan(server.data)));
-    request.catch((error) => error.response.data);
+    useEffect(() => {
+        const request = axios.get((subscriptionGetUrl + id), { headers: { Authorization: `Bearer ${userData.user.token}` } })
+        request.then((server => setPlan(server.data)));
+        request.catch((error) => error.response.data);
+    }, [])
+
     //console.log(plan);
     return (
         <Screen>
@@ -31,11 +34,11 @@ export default function Subscription() {
                 <img src={closeX} alt="close" />
                 <p>Tem certeza que deseja assinar o plano {plan.name}? (R$ 39,99)?</p>
                 <div>
-                    <CancelButton onClick={()=>{HideConfirmPlan(setShowConfirm)}}><p>Não</p></CancelButton>
+                    <CancelButton onClick={() => { HideConfirmPlan(setShowConfirm) }}><p>Não</p></CancelButton>
                     <ConfirmButton onClick={() => { SignPlan(userData, cardData, navigate) }}><p>Sim</p></ConfirmButton>
                 </div>
             </Confirm>
-            <BackArrow src={backArrow} alt="voltar" />
+            <BackArrow src={backArrow} alt="voltar" onClick={() => { BackToSubscriptions(navigate) }} />
             <Logo>
                 <ImgD src={plan.image} />
             </Logo>
@@ -73,7 +76,7 @@ function ConfirmPlan(userData, cardData, navigate, plan, setShowConfirm) {
     setShowConfirm("flex");
 }
 
-function HideConfirmPlan(setShonConfirm){
+function HideConfirmPlan(setShonConfirm) {
     setShonConfirm("none");
 }
 
@@ -93,6 +96,10 @@ function updateValue(value, setValue) {
 function RenderPerk(perk) {
     //console.log(perk)
     return (<p>{perk.title}</p>)
+}
+
+function BackToSubscriptions(navigate) {
+    navigate("/subscriptions");
 }
 
 const Screen = styled.div`

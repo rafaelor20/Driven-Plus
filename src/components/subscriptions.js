@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import { useState, useContext, createContext } from "react";
+import { useState, useEffect, useContext, createContext } from "react";
 import { UserContext } from "../App";
 import { subscribeGetSendObj, subscriptionGetUrl } from "./apiUrls.js"
 
@@ -12,14 +12,16 @@ export default function Subscriptions() {
     const userData = useContext(UserContext);
     const [plans, setPlans] = useState([]);
 
-    function insertNavigate(plan){
-        return {plan: plan, navigate: navigate};
+    function insertNavigate(plan) {
+        return { plan: plan, navigate: navigate };
     }
 
+    useEffect(() => {
+        const request = axios.get(subscriptionGetUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
+        request.then((server) => setPlans(server.data.map(insertNavigate)));
+        request.catch((error) => error.response.data);
+    }, [])
 
-    const request = axios.get(subscriptionGetUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
-    request.then((server) => setPlans(server.data.map(insertNavigate)));
-    request.catch((error) => error.response.data);
 
     return (
         <NavigateContext.Provider value={navigate}>
@@ -36,7 +38,7 @@ function RenderSubContainer(obj) {
     const navigate = obj.navigate;
     const plan = obj.plan;
     return (
-        <SubContainer onClick={() => { SelectPlan(plan, navigate)}}>
+        <SubContainer onClick={() => { SelectPlan(plan, navigate) }}>
             <img class="imgD" src={plan.image} alt="imagem do plano" />
             <p>R$ {plan.price}</p>
         </SubContainer>
