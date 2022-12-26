@@ -3,33 +3,39 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../App";
-import {subscribeGetUrl, subscriptionGetUrl, subscriptionObj} from "./apiUrls.js";
-import whiteD from "./assets/whiteD.png";
-import yellowD from "./assets/yellowD.png";
-import greenD from "./assets/greenD.png";
-import pinkBar from "./assets/pinkBar.png";
+import { subscribeGetUrl, subscriptionGetUrl, subscriptionObj } from "./apiUrls.js";
+import closeX from "./assets/closeImg.png";
+
 import clipBoard from "./assets/clipBoard.png";
 import money from "./assets/money.png";
 import backArrow from "./assets/backArrow.png";
 
 export default function Subscription() {
     const navigate = useNavigate();
-    const {id} = useParams();
+    const { id } = useParams();
     const [plan, setPlan] = useState(subscriptionObj)
     const userData = useContext(UserContext);
-    console.log(userData);
     const [cardName, setCardName] = useState("");
     const [cardNumber, setCardNumber] = useState("");
     const [cardSN, setCardSN] = useState("");
     const [expDate, setExpDate] = useState("");
-    const cardData = {membershipId: id, cardName: cardName, cardNumber: cardNumber, securityNumber: cardSN, expirationDate: expDate};
-    const request = axios.get((subscriptionGetUrl+id), { headers: { Authorization: `Bearer ${userData.user.token}` } })
-    request.then((server=>setPlan(server.data)));
+    const [showConfirm, setShowConfirm] = useState("none");
+    const cardData = { membershipId: id, cardName: cardName, cardNumber: cardNumber, securityNumber: cardSN, expirationDate: expDate };
+    const request = axios.get((subscriptionGetUrl + id), { headers: { Authorization: `Bearer ${userData.user.token}` } })
+    request.then((server => setPlan(server.data)));
     request.catch((error) => error.response.data);
     //console.log(plan);
     return (
         <Screen>
-            <BackArrow src={backArrow} alt="voltar"/>
+            <Confirm show={showConfirm}>
+                <img src={closeX} alt="close" />
+                <p>Tem certeza que deseja assinar o plano {plan.name}? (R$ 39,99)?</p>
+                <div>
+                    <CancelButton onClick={()=>{HideConfirmPlan(setShowConfirm)}}><p>Não</p></CancelButton>
+                    <ConfirmButton onClick={() => { SignPlan(userData, cardData, navigate) }}><p>Sim</p></ConfirmButton>
+                </div>
+            </Confirm>
+            <BackArrow src={backArrow} alt="voltar" />
             <Logo>
                 <ImgD src={plan.image} />
             </Logo>
@@ -48,13 +54,13 @@ export default function Subscription() {
                 </div>
                 <p>R$ {plan.price} cobrados mensalmente</p>
             </InfoContainer>
-            <InputBox placeholder="Nome impresso no cartão" onChange={e => updateValue(e.target.value, setCardName)}/>
-            <InputBox placeholder="Digitos do cartão" onChange={e => updateValue(e.target.value, setCardNumber)}/>
+            <InputBox placeholder="Nome impresso no cartão" onChange={e => updateValue(e.target.value, setCardName)} />
+            <InputBox placeholder="Digitos do cartão" onChange={e => updateValue(e.target.value, setCardNumber)} />
             <ShortInputContainer>
-                <ShortInputBox placeholder="Código de segurança" onChange={e => updateValue(e.target.value, setCardSN)}/>
-                <ShortInputBox placeholder="Validade" onChange={e => updateValue(e.target.value, setExpDate)}/>
+                <ShortInputBox placeholder="Código de segurança" onChange={e => updateValue(e.target.value, setCardSN)} />
+                <ShortInputBox placeholder="Validade" onChange={e => updateValue(e.target.value, setExpDate)} />
             </ShortInputContainer>
-            <LoginButton onClick={()=>{SignPlan(userData, cardData, navigate)}}>
+            <LoginButton onClick={() => { ConfirmPlan(userData, cardData, navigate, plan, setShowConfirm) }}>
                 <FontButton>
                     Assinar
                 </FontButton>
@@ -63,19 +69,28 @@ export default function Subscription() {
     )
 }
 
-function SignPlan(userData, cardData, navigate){
-    //console.log(userData);
-    //console.log(cardData);
-    const request = axios.post(subscribeGetUrl, cardData, { headers: { Authorization: `Bearer ${userData.user.token}` } });
-    request.then(()=>{navigate("/home")});
-    request.catch((error) => error.response.data);
+function ConfirmPlan(userData, cardData, navigate, plan, setShowConfirm) {
+    setShowConfirm("flex");
 }
 
-function updateValue(value, setValue){
+function HideConfirmPlan(setShonConfirm){
+    setShonConfirm("none");
+}
+
+function SignPlan(userData, cardData, navigate) {
+    console.log(userData);
+    console.log(cardData);
+    const request = axios.post(subscribeGetUrl, cardData, { headers: { Authorization: `Bearer ${userData.user.token}` } });
+    request.then(() => { navigate("/home") });
+    request.catch((error) => error.response.data);
+    request.catch(() => alert("Erro no cadastro do plano!"));
+}
+
+function updateValue(value, setValue) {
     setValue(value);
 }
 
-function RenderPerk(perk){
+function RenderPerk(perk) {
     //console.log(perk)
     return (<p>{perk.title}</p>)
 }
@@ -148,6 +163,7 @@ img{
     height: 16px;
     width: 12px;
     margin: 0px 8px 0px 0px;
+    color: blue;
 }
 `
 
@@ -199,4 +215,71 @@ font-weight: 700;
 font-size: 14px;
 line-height: 16px;
 color: #FFFFFF;
+`
+
+const Confirm = styled.div`
+display: ${props => props.show};
+padding: 20px 10px;
+flex-direction: column;
+justify-content: space-between;
+z-index: 1;
+position: absolute;
+width: 248px;
+height: 210px;
+left: 64px;
+top: 229px;
+background: #FFFFFF;
+border-radius: 12px;
+p{
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+line-height: 21px;
+text-align: center;
+color: #000000;
+}
+img{
+position: absolute;
+left: 0%;
+right: 0%;
+top: 6.25%;
+bottom: 6.25%;
+color: blue;
+}
+div{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+`
+
+const CancelButton = styled.button`
+margin: 0px 12px;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+border: none;
+gap: 10px;
+width: 95px;
+height: 52px;
+background-color: #CECECE;
+border-radius: 8px;
+p{
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 16px;
+color: #FFFFFF;
+flex: none;
+order: 0;
+flex-grow: 0;
+}
+`
+
+const ConfirmButton = styled(CancelButton)`
+background-color: #FF4791;
 `
