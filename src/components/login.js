@@ -13,10 +13,10 @@ export default function RenderLogin() {
     const loginProps = { login: login, setLogin: setLogin };
     const userData = useContext(UserContext);
 
+    /*
     useEffect(() => {
         const LSEmail = localStorage.getItem("email");
         const LSPassword = localStorage.getItem("password");
-        console.log(localStorage);
         if (LSEmail && LSPassword){
             auxSetLogin(setLogin, LSEmail, LSPassword);
             setTimeout(()=>{
@@ -24,7 +24,7 @@ export default function RenderLogin() {
             }, 1000);
             
         }
-    }, [loginProps, navigate, userData]);
+    }, [loginProps, navigate, userData]);*/
 
     return (
         <LoginDiv>
@@ -48,11 +48,9 @@ function Login(loginProps, userData, navigate, setDisableInput) {
     const request = axios.post(loginPostUrl, loginProps.login);
     const setUser = userData.setUser;
     request.then(server => {
-        console.log(server.data)
         setUser(server.data);
         localStorage.setItem("email", server.data.email);
         localStorage.setItem("password", server.data.password);
-        console.log(localStorage);
     });
     request.then((server) => {
         if (server.data.membership === null) {

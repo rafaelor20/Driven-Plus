@@ -85,7 +85,22 @@ function HideConfirmPlan(setShowConfirm, setOpacityValue) {
 }
 
 function SignPlan(userData, cardData, navigate) {
+    const setUser = userData.setUser;
     const request = axios.post(subscribeGetUrl, cardData, { headers: { Authorization: `Bearer ${userData.user.token}` } });
+    request.then((server) => {
+        console.log(server.data);
+        setUser(
+            {
+                cpf: userData.user.cpf,
+                email: userData.user.email,
+                id: userData.user.id,
+                membership: server.data.membership,
+                name: userData.user.name,
+                password: userData.user.password,
+                token: userData.user.token
+            }
+        );
+    })
     request.then(() => { navigate("/home") });
     request.catch((error) => error.response.data);
     request.catch(() => alert("Erro no cadastro do plano!"));
@@ -216,7 +231,7 @@ color: #FFFFFF;
 `
 
 const Opacity = styled.div`
-opacity: ${props=>props.value};
+opacity: ${props => props.value};
 `
 
 const Confirm = styled.div`
