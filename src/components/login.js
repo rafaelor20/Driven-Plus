@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import logo from "./assets/logo.png";
 import { loginPostUrl, loginPostSendObj } from "./apiUrls.js"
@@ -9,9 +9,20 @@ import { UserContext } from "../App";
 export default function RenderLogin() {
     const [disableInput, setDisableInput] = useState(false);
     const navigate = useNavigate();
-    const [login, setLogin] = useState(loginPostSendObj);
+    const [login, setLogin] = useState(loginPostSendObj)
     const loginProps = { login: login, setLogin: setLogin };
     const userData = useContext(UserContext);
+
+    useEffect(()=>{
+        if (JSON.parse(localStorage.getItem("email")) !== null && JSON.parse(localStorage.getItem("password")) !== null) {
+            console.log(JSON.parse(localStorage.getItem("email")));
+            GetLocalStorage(setLogin);
+            Login(loginProps, userData, navigate, setDisableInput);
+        }
+    },[])
+
+    
+
     return (
         <LoginDiv>
             <Logo src={logo} />
@@ -29,18 +40,32 @@ export default function RenderLogin() {
     );
 }
 
+function GetLocalStorage(setLogin) {
+    const LSEmail = JSON.parse(localStorage.getItem("email"));
+    const LSPassword = JSON.parse(localStorage.getItem("password"));
+    setLogin({
+        email: LSEmail,
+        password: LSPassword
+    })
+}
+
 function Login(loginProps, userData, navigate, setDisableInput) {
     setDisableInput(true);
     const request = axios.post(loginPostUrl, loginProps.login);
     const setUser = userData.setUser;
-    request.then(server => { setUser(server.data) });
+    request.then(server => {
+        setUser(server.data);
+        console.log(userData.user.email);
+        localStorage.setItem("email", userData.user.email);
+        localStorage.setItem("password", userData.user.password);
+    });
     request.then((server) => {
-        if (server.data.membership === null){
+        if (server.data.membership === null) {
             navigate('/subscriptions');
         } else {
             navigate('/home');
         }
-         });
+    });
     request.catch((error) => error.response.data);
     request.catch((error) => { alert("Erro no login") });
     setDisableInput(false);

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../App";
 import { subscribeGetUrl, subscriptionGetUrl, subscriptionObj } from "./apiUrls.js";
 import closeX from "./assets/closeImg.png";
@@ -26,7 +26,7 @@ export default function Subscription() {
         const request = axios.get((subscriptionGetUrl + id), { headers: { Authorization: `Bearer ${userData.user.token}` } })
         request.then((server => setPlan(server.data)));
         request.catch((error) => error.response.data);
-    }, [])
+    }, [id, userData.user.token])
 
     return (
         <Screen>
@@ -96,7 +96,6 @@ function updateValue(value, setValue) {
 }
 
 function RenderPerk(perk) {
-    //console.log(perk)
     return (<p>{perk.title}</p>)
 }
 
@@ -108,7 +107,7 @@ const Screen = styled.div`
 display: flex;
 align-items: center;
 flex-direction: column;
-padding: 10px 10px;
+padding: 10px 40px;
 `
 
 const BackArrow = styled.img`
@@ -123,7 +122,7 @@ const Logo = styled.div`
 position: relative;
 height: 92px;
 width: 150px;
-margin: 50px 0px 0px 100px;
+margin: 20px 0px 0px 100px;
 display: flex;
 justify-content: center;
 `
@@ -131,18 +130,6 @@ justify-content: center;
 const ImgD = styled.img`
 width: 95px;
 height: 92px;
-`
-
-const PinkBarHorizontal = styled.img`
-width: 47px;
-height: 10px;
-position: absolute;
-bottom: 15px;
-left: 90px;
-`
-
-const PinkBarVertical = styled(PinkBarHorizontal)`
-transform: rotate(90deg);
 `
 
 const Title = styled.p`
@@ -186,7 +173,7 @@ background: #FFFFFF;
 border: 1px solid #D5D5D5;
 border-radius: 8px;
 padding: 0px 10px;
-margin: 5px 0px;
+margin: 4px 0px;
 ::placeholder{
 font-family: 'Roboto';
 font-style: normal;
@@ -210,7 +197,7 @@ padding: 0px 3px;
 `
 
 const LoginButton = styled.button`
-margin: 5px 0px;
+margin: 4px 0px;
 width: 298px;
 height: 52px;
 background: #FF4791;

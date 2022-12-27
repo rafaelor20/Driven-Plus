@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext, createContext } from "react";
 import { UserContext } from "../App";
-import { subscribeGetSendObj, subscriptionGetUrl } from "./apiUrls.js"
+import { subscriptionGetUrl } from "./apiUrls.js"
 
 export const NavigateContext = createContext();
 
@@ -20,7 +20,7 @@ export default function Subscriptions() {
         const request = axios.get(subscriptionGetUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
         request.then((server) => setPlans(server.data.map(insertNavigate)));
         request.catch((error) => error.response.data);
-    }, [])
+    })
 
 
     return (
@@ -34,7 +34,6 @@ export default function Subscriptions() {
 }
 
 function RenderSubContainer(obj) {
-    //console.log(obj);
     const navigate = obj.navigate;
     const plan = obj.plan;
     return (
@@ -46,9 +45,7 @@ function RenderSubContainer(obj) {
 }
 
 function SelectPlan(plan, navigate) {
-    //console.log(navigate);
     navigate(`/subscriptions/${plan.id}`)
-    //console.log(plan);
 }
 
 const Container = styled.div`
@@ -95,16 +92,4 @@ color: #FFFFFF;
 width:142px;
 height:95px;
 }
-`
-
-const PinkBarHorizontal = styled.img`
-width: 45px;
-height: 10px;
-position: absolute;
-bottom: 55px;
-left: 100px
-`
-
-const PinkBarVertical = styled(PinkBarHorizontal)`
-transform: rotate(90deg);
 `

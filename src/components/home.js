@@ -1,20 +1,19 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useState, useEffect, useContext, createContext } from "react";
+import { useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import iconUser from "./assets/userIcon.png"
 import { deletePlanUrl } from "./apiUrls";
-import { loginPostUrl, loginPostSendObj } from "./apiUrls.js"
+import { loginPostUrl} from "./apiUrls.js"
 
 
 export default function Home() {
     const userData = useContext(UserContext);
-    console.log(userData);
     const navigate = useNavigate();
     useEffect(() => {
         Login(userData, navigate);
-    }, []);
+    }, [navigate, userData]);
     const image = userData.user.membership.image;
     const perks = userData.user.membership.perks;
     return (
@@ -91,17 +90,6 @@ width: 49px;
 height: 50px;
 `
 
-const PinkBarHorizontal = styled.img`
-width: 5px;
-height: 25px;
-position: absolute;
-top: 27px;
-left: 55px;
-`
-
-const PinkBarVertical = styled(PinkBarHorizontal)`
-transform: rotate(90deg);
-`
 
 const Content = styled.div`
 display: flex;
