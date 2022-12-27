@@ -13,14 +13,6 @@ export default function RenderLogin() {
     const loginProps = { login: login, setLogin: setLogin };
     const userData = useContext(UserContext);
 
-    useEffect(()=>{
-        if (JSON.parse(localStorage.getItem("email")) !== null && JSON.parse(localStorage.getItem("password")) !== null) {
-            console.log(JSON.parse(localStorage.getItem("email")));
-            GetLocalStorage(setLogin);
-            Login(loginProps, userData, navigate, setDisableInput);
-        }
-    },[])
-
     
 
     return (
@@ -38,15 +30,6 @@ export default function RenderLogin() {
             </Link>
         </LoginDiv>
     );
-}
-
-function GetLocalStorage(setLogin) {
-    const LSEmail = JSON.parse(localStorage.getItem("email"));
-    const LSPassword = JSON.parse(localStorage.getItem("password"));
-    setLogin({
-        email: LSEmail,
-        password: LSPassword
-    })
 }
 
 function Login(loginProps, userData, navigate, setDisableInput) {
