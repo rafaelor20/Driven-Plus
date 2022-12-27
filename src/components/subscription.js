@@ -88,7 +88,6 @@ function SignPlan(userData, cardData, navigate) {
     const setUser = userData.setUser;
     const request = axios.post(subscribeGetUrl, cardData, { headers: { Authorization: `Bearer ${userData.user.token}` } });
     request.then((server) => {
-        console.log(server.data);
         setUser(
             {
                 cpf: userData.user.cpf,

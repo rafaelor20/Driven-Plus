@@ -13,18 +13,15 @@ export default function RenderLogin() {
     const loginProps = { login: login, setLogin: setLogin };
     const userData = useContext(UserContext);
 
-    /*
+    
     useEffect(() => {
         const LSEmail = localStorage.getItem("email");
         const LSPassword = localStorage.getItem("password");
         if (LSEmail && LSPassword){
             auxSetLogin(setLogin, LSEmail, LSPassword);
-            setTimeout(()=>{
-                Login(loginProps, userData, navigate, setDisableInput);
-            }, 1000);
-            
+            Login(loginProps, userData, navigate, setDisableInput);
         }
-    }, [loginProps, navigate, userData]);*/
+    }, [loginProps, navigate, userData]);
 
     return (
         <LoginDiv>
