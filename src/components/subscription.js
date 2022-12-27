@@ -15,6 +15,7 @@ export default function Subscription() {
     const { id } = useParams();
     const [plan, setPlan] = useState(subscriptionObj)
     const userData = useContext(UserContext);
+    const [opacityValue, setOpacityValue] = useState("1.0");
     const [cardName, setCardName] = useState("");
     const [cardNumber, setCardNumber] = useState("");
     const [cardSN, setCardSN] = useState("");
@@ -27,62 +28,63 @@ export default function Subscription() {
         request.catch((error) => error.response.data);
     }, [])
 
-    //console.log(plan);
     return (
         <Screen>
+            <CloseImg src={closeX} alt="close" show={showConfirm} onClick={() => { HideConfirmPlan(setShowConfirm, setOpacityValue) }} />
             <Confirm show={showConfirm}>
-                <img src={closeX} alt="close" />
                 <p>Tem certeza que deseja assinar o plano {plan.name}? (R$ 39,99)?</p>
                 <div>
-                    <CancelButton onClick={() => { HideConfirmPlan(setShowConfirm) }}><p>Não</p></CancelButton>
+                    <CancelButton onClick={() => { HideConfirmPlan(setShowConfirm, setOpacityValue) }}><p>Não</p></CancelButton>
                     <ConfirmButton onClick={() => { SignPlan(userData, cardData, navigate) }}><p>Sim</p></ConfirmButton>
                 </div>
             </Confirm>
-            <BackArrow src={backArrow} alt="voltar" onClick={() => { BackToSubscriptions(navigate) }} />
-            <Logo>
-                <ImgD src={plan.image} />
-            </Logo>
-            <Title>{plan.name}</Title>
-            <InfoContainer>
-                <div>
-                    <img src={clipBoard} alt="" />
-                    <p>  Benefícios:</p>
-                </div>
-                <>{plan.perks.map(RenderPerk)}</>
-            </InfoContainer>
-            <InfoContainer>
-                <div>
-                    <img src={money} alt="" />
-                    <p>Preço:</p>
-                </div>
-                <p>R$ {plan.price} cobrados mensalmente</p>
-            </InfoContainer>
-            <InputBox placeholder="Nome impresso no cartão" onChange={e => updateValue(e.target.value, setCardName)} />
-            <InputBox placeholder="Digitos do cartão" onChange={e => updateValue(e.target.value, setCardNumber)} />
-            <ShortInputContainer>
-                <ShortInputBox placeholder="Código de segurança" onChange={e => updateValue(e.target.value, setCardSN)} />
-                <ShortInputBox placeholder="Validade" onChange={e => updateValue(e.target.value, setExpDate)} />
-            </ShortInputContainer>
-            <LoginButton onClick={() => { ConfirmPlan(userData, cardData, navigate, plan, setShowConfirm) }}>
-                <FontButton>
-                    Assinar
-                </FontButton>
-            </LoginButton>
+            <Opacity value={opacityValue}>
+                <BackArrow src={backArrow} alt="voltar" onClick={() => { BackToSubscriptions(navigate) }} />
+                <Logo>
+                    <ImgD src={plan.image} />
+                </Logo>
+                <Title>{plan.name}</Title>
+                <InfoContainer>
+                    <div>
+                        <img src={clipBoard} alt="" />
+                        <p>  Benefícios:</p>
+                    </div>
+                    <>{plan.perks.map(RenderPerk)}</>
+                </InfoContainer>
+                <InfoContainer>
+                    <div>
+                        <img src={money} alt="" />
+                        <p>Preço:</p>
+                    </div>
+                    <p>R$ {plan.price} cobrados mensalmente</p>
+                </InfoContainer>
+                <InputBox placeholder="Nome impresso no cartão" onChange={e => updateValue(e.target.value, setCardName)} />
+                <InputBox placeholder="Digitos do cartão" onChange={e => updateValue(e.target.value, setCardNumber)} />
+                <ShortInputContainer>
+                    <ShortInputBox placeholder="Código de segurança" onChange={e => updateValue(e.target.value, setCardSN)} />
+                    <ShortInputBox placeholder="Validade" onChange={e => updateValue(e.target.value, setExpDate)} />
+                </ShortInputContainer>
+                <LoginButton onClick={() => { ConfirmPlan(setShowConfirm, setOpacityValue) }}>
+                    <FontButton>
+                        Assinar
+                    </FontButton>
+                </LoginButton>
+            </Opacity>
         </Screen>
     )
 }
 
-function ConfirmPlan(userData, cardData, navigate, plan, setShowConfirm) {
+function ConfirmPlan(setShowConfirm, setOpacityValue) {
     setShowConfirm("flex");
+    setOpacityValue("0.4");
 }
 
-function HideConfirmPlan(setShonConfirm) {
-    setShonConfirm("none");
+function HideConfirmPlan(setShowConfirm, setOpacityValue) {
+    setShowConfirm("none");
+    setOpacityValue("1.0");
 }
 
 function SignPlan(userData, cardData, navigate) {
-    console.log(userData);
-    console.log(cardData);
     const request = axios.post(subscribeGetUrl, cardData, { headers: { Authorization: `Bearer ${userData.user.token}` } });
     request.then(() => { navigate("/home") });
     request.catch((error) => error.response.data);
@@ -121,7 +123,9 @@ const Logo = styled.div`
 position: relative;
 height: 92px;
 width: 150px;
-margin: 50px 0px 0px 0px;
+margin: 50px 0px 0px 100px;
+display: flex;
+justify-content: center;
 `
 
 const ImgD = styled.img`
@@ -224,6 +228,10 @@ line-height: 16px;
 color: #FFFFFF;
 `
 
+const Opacity = styled.div`
+opacity: ${props=>props.value};
+`
+
 const Confirm = styled.div`
 display: ${props => props.show};
 padding: 20px 10px;
@@ -246,20 +254,20 @@ line-height: 21px;
 text-align: center;
 color: #000000;
 }
-img{
-position: absolute;
-left: 0%;
-right: 0%;
-top: 6.25%;
-bottom: 6.25%;
-color: blue;
-}
 div{
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
+`
+
+const CloseImg = styled.img`
+display: ${props => props.show};
+position: absolute;
+left: 320px;
+top: 25px;
+color: blue;
 `
 
 const CancelButton = styled.button`

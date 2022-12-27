@@ -10,13 +10,11 @@ import { loginPostUrl, loginPostSendObj } from "./apiUrls.js"
 
 export default function Home() {
     const userData = useContext(UserContext);
-    const [login, setLogin] = useState(loginPostSendObj);
-    const loginProps = { login: login, setLogin: setLogin };
+    console.log(userData);
     const navigate = useNavigate();
     useEffect(() => {
-        Login(loginProps, userData, navigate);
-    }, [])
-    //console.log(userData);
+        Login(userData, navigate);
+    }, []);
     const image = userData.user.membership.image;
     const perks = userData.user.membership.perks;
     return (
@@ -59,7 +57,7 @@ function RemoveSub(userData, navigate){
     request.catch((error) => error.response.data);
 }
 
-function Login(loginProps, userData, navigate) {
+function Login(userData, navigate) {
     const login = {
         email: userData.user.email, 
         password: userData.user.password
