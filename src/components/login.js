@@ -13,7 +13,18 @@ export default function RenderLogin() {
     const loginProps = { login: login, setLogin: setLogin };
     const userData = useContext(UserContext);
 
-    
+    useEffect(() => {
+        const LSEmail = localStorage.getItem("email");
+        const LSPassword = localStorage.getItem("password");
+        console.log(localStorage);
+        if (LSEmail && LSPassword){
+            auxSetLogin(setLogin, LSEmail, LSPassword);
+            setTimeout(()=>{
+                Login(loginProps, userData, navigate, setDisableInput);
+            }, 1000);
+            
+        }
+    }, [loginProps, navigate, userData]);
 
     return (
         <LoginDiv>
@@ -37,10 +48,11 @@ function Login(loginProps, userData, navigate, setDisableInput) {
     const request = axios.post(loginPostUrl, loginProps.login);
     const setUser = userData.setUser;
     request.then(server => {
+        console.log(server.data)
         setUser(server.data);
-        console.log(userData.user.email);
-        localStorage.setItem("email", userData.user.email);
-        localStorage.setItem("password", userData.user.password);
+        localStorage.setItem("email", server.data.email);
+        localStorage.setItem("password", server.data.password);
+        console.log(localStorage);
     });
     request.then((server) => {
         if (server.data.membership === null) {
@@ -52,6 +64,13 @@ function Login(loginProps, userData, navigate, setDisableInput) {
     request.catch((error) => error.response.data);
     request.catch((error) => { alert("Erro no login") });
     setDisableInput(false);
+}
+
+function auxSetLogin(setLogin, email, password){
+    setLogin({
+        email: email,
+        password: password
+    })
 }
 
 function updateEmail(email, loginProps) {
