@@ -13,7 +13,7 @@ export default function RenderLogin() {
     const loginProps = { login: login, setLogin: setLogin };
     const userData = useContext(UserContext);
 
-    
+    /*
     useEffect(() => {
         const LSEmail = localStorage.getItem("email");
         const LSPassword = localStorage.getItem("password");
@@ -21,7 +21,7 @@ export default function RenderLogin() {
             auxSetLogin(setLogin, LSEmail, LSPassword);
             Login(loginProps, userData, navigate, setDisableInput);
         }
-    }, [loginProps, navigate, userData]);
+    }, [loginProps, navigate, userData]);*/
 
     return (
         <LoginDiv>
