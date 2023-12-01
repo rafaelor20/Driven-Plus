@@ -35,7 +35,7 @@ export default App;
 const BlackBackground = styled.div`
 background-color: #0E0E13;
 height: 100%;
-width:100%;
+width: 100%;
 display: flex;
 justify-content: center;
 `
